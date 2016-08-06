@@ -3,42 +3,42 @@ import subprocess
 import logging
 import musicLibrary
 
-mocp = "mocp"
-playNow = "-l"
-startServer = "-F"
-stopServer = "-X"
-togglePause = "-G"
-enqueue = "-q"
-next = "-f"
-previous = "-r"
-goToSeconds = "-k"
-getInfo = "-i"
+_mocp = "mocp"
+_playNow = "-l"
+_startServer = "-F"
+_stopServer = "-X"
+_togglePause = "-G"
+_enqueue = "-q"
+_next = "-f"
+_previous = "-r"
+_goToSeconds = "-k"
+_getInfo = "-i"
 
 def starServer(mp3Id):
-	subprocess.call([mocp, starServer])
+	subprocess.call([_mocp, _starServer])
 
 def stopServer(mp3Id):
-	subprocess.call([mocp, stopServer])
+	subprocess.call([_mocp, _stopServer])
 
 def playMp3(mp3Id):
 	mp3Path = musicLibrary.getMp3ById(mp3Id)
-	subprocess.call([mocp, playNow, mp3Path])
+	subprocess.call([_mocp, _playNow, mp3Path])
 
 def togglePause(mp3Id):
-	subprocess.call([mocp, togglePause])
+	subprocess.call([_mocp, _togglePause])
 
 def enqueue(mp3Id):
 	mp3Path = musicLibrary.getMp3ById(mp3Id)
-	subprocess.call([mocp, enqueue, mp3Path])
+	subprocess.call([_mocp, _enqueue, mp3Path])
 
 def playNext(mp3Id):
-	subprocess.call([mocp, next])
+	subprocess.call([_mocp, _next])
 
 def playPrevious(mp3Id):
-	subprocess.call([mocp, previous])
+	subprocess.call([_mocp, _previous])
 
 def goToSeconds(seconds):
-	subprocess.call([mocp, goToSeconds, seconds])
+	subprocess.call([_mocp, _goToSeconds, str(seconds)])
 
 def getInfo(mp3Id):
-	subprocess.call([mocp, getInfo])
+	subprocess.call([_mocp, _getInfo])
