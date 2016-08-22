@@ -1,8 +1,9 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
+setup.py
 *.py[cod]
-*$py.class
 *.pyc
+*$py.class
 
 # C extensions
 *.so
@@ -80,6 +81,7 @@ celerybeat-schedule
 .env
 
 # virtualenv
+.venv/
 venv/
 ENV/
 
@@ -88,6 +90,3 @@ ENV/
 
 # Rope project settings
 .ropeproject
-
-# Sqlite
-*.db
