@@ -36,7 +36,7 @@ class MocManagerController(object):
 			action = int(request['Action'])
 			print("Action es {0}".format(action))
 
-			if not action in range(1,5):
+			if not action in range(0,5):
 				req.context['result'] = "Invalid ateration"
 			else:
 				mp3Path = int(request['Mp3'])

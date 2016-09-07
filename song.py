@@ -1,9 +1,9 @@
 class Song(object):
-	def __init__(self, rowId, name, title):
+	def __init__(self, rowId, title, artist):
 		self.rowId = rowId
-		self.artist = artist
 		self.title = title
+		self.artist = artist
 
 	def __str__(self):
-		return "({0}, {1} - {3})".format(self.rowId,
-			self.name, self.title)
+		return "({0}, {1} - {2})".format(self.rowId,
+			self.artist, self.title)

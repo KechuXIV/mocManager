@@ -1,5 +1,6 @@
 import os
 import sqlite3
+import eyed3
 from song import *
 
 _dbName = 'mp3Library.db'
@@ -8,12 +9,12 @@ _dbName = 'mp3Library.db'
 _musicPath = os.path.join("C:/", "Users","nkinaschuk","Music")
 
 def createDatabase():
-	connection = _getConnection()
+	connection = sqlite3.connect(_dbName)
 	try:
-		cursor = _getCursor(connection)
+		cursor = connection.cursor()
 
 		cursor.execute("CREATE TABLE mp3s "
-			"(name text, path text)")
+			"(title text, artist text, fileName text, path text)")
 	except Exception, e:
 		raise
 	finally:
@@ -25,20 +26,26 @@ def getMp3InMusic():
 	return mp3Files
 
 def saveMp3s():
-	connection = _getConnection()
+	connection = sqlite3.connect(_dbName)
 
 	try:
-		cursor = _getCursor(connection)
+		cursor = connection.cursor()
 
 		mp3Files = getMp3InMusic()
 
 		for mp3File in mp3Files:
 
-			value = (_sanitizeString(mp3File), _sanitizeString(_musicPath))
+			mp3Info = eyed3.load(os.path.join(_musicPath, mp3File))
+
+			value = (mp3Info.tag.title,
+				mp3Info.tag.artist,
+				mp3File,
+				_musicPath)
 
 			cursor.execute("INSERT INTO mp3s "
 				"VALUES "
-				"(?, ?)",value)
+				"(?, ?, ?, ?)",
+				value)
 
 		connection.commit()
 	except Exception, e:
@@ -47,13 +54,12 @@ def saveMp3s():
 		connection.close()
 
 def getMp3s():
-	connection = _getConnection()
+	connection = sqlite3.connect(_dbName)
 
 	try:
-		cursor = _getCursor(connection)
-		cursor.execute("SELECT rowId, name "
-				"FROM "
-				"mp3s ")
+		cursor = connection.cursor()
+		cursor.execute("SELECT rowid, title, artist "
+			"FROM mp3s")
 
 		mp3s = cursor.fetchall()
 	except Exception, e:
@@ -63,18 +69,18 @@ def getMp3s():
 
 	songs = []
 	for mp3 in mp3s:
-		songs.append(Song(mp3[0],mp3[1]))
+		songs.append(Song(mp3[0],mp3[1], mp3[2]))
 
 	return songs
 
 def getMp3ById(id):
-	connection = _getConnection()
+	connection = sqlite3.connect(_dbName)
 
 	try:
-		cursor = _getCursor(connection)
+		cursor = connection.cursor()
 		rowId = (id,)
 
-		cursor.execute("SELECT name "
+		cursor.execute("SELECT fileName "
 				"FROM "
 				"mp3s "
 				"WHERE "
@@ -87,12 +93,3 @@ def getMp3ById(id):
 		raise
 	finally:
 		connection.close()
-
-def _getCursor(connection):
-	return connection.cursor()
-
-def _getConnection():
-	return sqlite3.connect(_dbName)
-
-def _sanitizeString(value):
-	return "'{0}'".format(value)
