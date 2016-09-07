@@ -1,5 +1,6 @@
 import os
 import sqlite3
+from song import *
 
 _dbName = 'mp3Library.db'
 _musicPath = "/{0}".format(os.path.join("","home","kechunet","Music"))
@@ -14,8 +15,8 @@ def createDatabase():
 	_closeAndCommit(connection)
 
 def getMp3InMusic():
-	os.listdir(musicPath)
-	mp3Files = [file for file in os.listdir(musicPath) if file.endswith(".mp3")]
+	os.listdir(_musicPath)
+	mp3Files = [file for file in os.listdir(_musicPath) if file.endswith(".mp3")]
 	return mp3Files
 
 def saveMp3s():
@@ -25,7 +26,7 @@ def saveMp3s():
 	mp3Files = getMp3InMusic()
 
 	for mp3File in mp3Files:
-		value = (_sanitizeString(mp3File), _sanitizeString(musicPath))
+		value = (_sanitizeString(mp3File), _sanitizeString(_musicPath))
 		cursor.execute("INSERT INTO mp3s "
 			"VALUES "
 			"(?, ?)",value)
@@ -41,10 +42,13 @@ def getMp3s():
 			"mp3s ")
 
 	mp3s = cursor.fetchall()
-
 	_closeAndCommit(connection)
 
-	return mp3s
+	songs = []
+	for mp3 in mp3s:
+		songs.append(Song(mp3[0],mp3[1]))
+
+	return songs
 
 def getMp3ById(id):
 	connection = _getConnection()

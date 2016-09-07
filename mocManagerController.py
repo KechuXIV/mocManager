@@ -2,6 +2,7 @@ import logging
 import falcon
 import mocManager as mm
 import musicLibrary as ml
+import json
 from mocAction import MocAction as ma
 
 class MocManagerController(object):
@@ -20,8 +21,9 @@ class MocManagerController(object):
 
 	def on_get(self, req, resp, user_id):
 		print("Entro Por Get")
-		result = ml.getMp3s()
-		req.context['result'] = result
+		mp3s = ml.getMp3s()
+
+		req.context['result'] =  json.dumps([song.__dict__ for song in mp3s])
 
 		resp.set_header('Powered-By', 'Falcon')
 		resp.status = falcon.HTTP_200
@@ -35,7 +37,7 @@ class MocManagerController(object):
 			print("Action es {0}".format(action))
 
 			if not action in range(1,5):
-				req.context['result'] = "Invalid Operation"
+				req.context['result'] = "Invalid ateration"
 			else:
 				mp3Path = int(request['Mp3'])
 				print("mp3Path es {0}".format(mp3Path))
