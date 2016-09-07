@@ -1,11 +1,9 @@
 class Song(object):
-	"""docstring for Song"""
-	def __init__(self, rowId, name):
+	def __init__(self, rowId, name, title):
 		self.rowId = rowId
-		self.name = name
+		self.artist = artist
+		self.title = title
 
 	def __str__(self):
-		return "({0}, {1})".format(self.rowId, self.name)
-
-#	def __repr__(self):
-#		return str(self)
+		return "({0}, {1} - {3})".format(self.rowId,
+			self.name, self.title)
