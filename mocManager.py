@@ -21,8 +21,8 @@ def stopServer(mp3Id):
 	subprocess.call([_mocp, _stopServer])
 
 def playMp3(mp3Id):
-	print("Entro")
-	mp3Path = musicLibrary.getMp3ById(mp3Id)
+	mp3 = musicLibrary.getMp3ById(mp3Id)
+	fullPath = os.path.join(mp3.path, mp3.fileName)
 	print(mp3Path)
 	#subprocess.call([_mocp, _playNow, mp3Path])
 
