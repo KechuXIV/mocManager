@@ -14,6 +14,12 @@ def getAllMp3s():
 def getMp3ById(mp3Id):
 	return Session().query(Mp3).filter_by(mp3Id=mp3Id).first()
 
+def getPlaylistLastPosition(playlistId):
+	session = Session()
+	lastPosition = int(session.query(func.max(PlaylistMp3.position)).filter_by(playlistId=playlistId).first()[0])
+	session.close()
+	return lastPosition
+
 def insertMp3s(mp3s):
 	session = Session()
 	session.add_all(mp3s)
@@ -24,22 +30,30 @@ def insertPlaylists(playlists):
 	session.add_all(playlists)
 	session.commit()
 
-def instertMp3sInPlaylists(mp3, playlist):
+def instertMp3sInPlaylists(mp3Id, playlistId, position=None):
 	session = Session()
-	session.add_all(playlists)
+	if(position is None):
+		position = getPlaylistLastPosition(playlistId) + 1
+	playlist = Playlist(mp3Id, playlistId, position)
+	session.add_all(playlist)
 	session.commit()
 
 def startNewCurrentPlaylist(mp3Id):
 	session = Session()
 	session.query(PlaylistMp3s).filter_by(playlistId=_currentPlaylistId).delete()
-	playlistMp3 = PlaylistMp3(mp3Id=mp3Id, playlistId= _currentPlaylistId, position=1)
+	playlistMp3 = PlaylistMp3(mp3Id, _currentPlaylistId, 1)
 	session.add(playlistMp3)
 	session.commit()
 
 def enqueueInCurrentPlaylist(mp3Id):
 	session = Session()
-	position = session.query(func.max(PlaylistMp3.position))
-		.filter_by(playlistId=0).first()[0]
-	playlistMp3 = PlaylistMp3(mp3Id=mp3Id, playlistId = _currentPlaylistId, position=position)
+	lastPosition = getPlaylistLastPosition(_currentPlaylistId)
+	playlistMp3 = PlaylistMp3(mp3Id, _currentPlaylistId, lastPosition + 1)
 	session.add(playlistMp3)
+	session.commit()
+
+def createPlaylist(name, description):
+	session = Session()
+	playlist = Playlist(name, description)
+	session.add(playlist)
 	session.commit()

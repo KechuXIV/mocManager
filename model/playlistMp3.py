@@ -11,6 +11,11 @@ class PlaylistMp3(Base):
 	mp3Id = Column(Integer, ForeignKey('mp3s.mp3Id'), primary_key=True)
 	position = Column(Integer)
 
+	def __init__(self, playlistId, mp3Id, position):
+		self.playlistId = playlistId
+		self.mp3Id = mp3Id
+		self.position = position
+
 	def __repr__(self):
 		return "<PlaylistMp3(playlistId='%s', \
 			mp3Id='%s', \

@@ -17,6 +17,13 @@ class Mp3(Base):
 						secondary='playlistsMp3s',
 						back_populates='mp3s')
 
+	def __init__(self, title, artist, fileName, path, mp3Id=None):
+		self.title = title
+		self.artist = artist
+		self.fileName = fileName
+		self.path = path
+		self.mp3Id = mp3Id
+
 	def __repr__(self):
 		return "<Mp3(mp3Id='%s', \
 			title='%s', \

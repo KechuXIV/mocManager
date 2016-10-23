@@ -15,6 +15,11 @@ class Playlist(Base):
 						secondary='playlistsMp3s',
 						back_populates='playlists')
 
+	def __init__(self, name, description, playlistId = None):
+		self.name = name
+		self.description = description
+		self.playlistId = playlistId
+
 	def __repr__(self):
 		return "<Playlist(playlistId='%s', \
 			name='%s', \
