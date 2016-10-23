@@ -21,6 +21,7 @@ def stopServer(mp3Id):
 	subprocess.call([_mocp, _stopServer])
 
 def playMp3(mp3Id):
+	musicLibrary.startNewCurrentPlaylist(mp3Id)
 	mp3 = musicLibrary.getMp3ById(mp3Id)
 	fullPath = os.path.join(mp3.path, mp3.fileName)
 	print(mp3Path)
@@ -30,6 +31,7 @@ def togglePause(mp3Id):
 	subprocess.call([_mocp, _togglePause])
 
 def enqueue(mp3Id):
+	musicLibrary.enqueueInCurrentPlaylist(mp3Id)
 	mp3Path = musicLibrary.getMp3ById(mp3Id)
 	subprocess.call([_mocp, _enqueue, mp3Path])
 

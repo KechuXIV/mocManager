@@ -21,9 +21,9 @@ class MocManagerController(object):
 
 	def on_get(self, req, resp, user_id):
 		print("Entro Por Get")
-		mp3s = ml.getMp3s()
+		songs = ml.getMp3s()
 
-		req.context['result'] =  json.dumps([song.__dict__ for song in mp3s])
+		req.context['result'] =  json.dumps([song.__dict__ for song in songs])
 
 		resp.set_header('Powered-By', 'Falcon')
 		resp.status = falcon.HTTP_200

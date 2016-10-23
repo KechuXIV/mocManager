@@ -1,5 +1,7 @@
 from sqlalchemy import *
+from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
+from playlistMp3 import *
 from context import Base
 
 
@@ -10,6 +12,10 @@ class Mp3(Base):
 	artist = Column(String(50))
 	fileName = Column(String(50))
 	path = Column(String(250))
+
+	playlists = relationship('Playlist',
+						secondary='playlistsMp3s',
+						back_populates='mp3s')
 
 	def __repr__(self):
 		return "<Mp3(mp3Id='%s', \

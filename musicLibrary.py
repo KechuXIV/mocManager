@@ -35,3 +35,9 @@ def getMp3s():
 def getMp3ById(mp3Id):
 	mp3 = repository.getMp3ById(mp3Id)
 	return mp3
+
+def startNewCurrentPlaylist(mp3Id):
+	repository.startNewCurrentPlaylist(mp3Id)
+
+def enqueueInCurrentPlaylist(mp3Id):
+	repository.enqueueInCurrentPlaylist(mp3Id)
