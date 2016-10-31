@@ -23,7 +23,8 @@ class MocManagerController(object):
 		print("Entro Por Get")
 		songs = ml.getMp3s()
 
-		req.context['result'] =  json.dumps([song.__dict__ for song in songs])
+		resp.body = json.dumps([song.__dict__ for song in songs])
+		#resp.body = json.dumps(songs[0].__dict__)
 
 		resp.set_header('Powered-By', 'Falcon')
 		resp.status = falcon.HTTP_200
@@ -36,12 +37,12 @@ class MocManagerController(object):
 			action = int(request['Action'])
 			print("Action es {0}".format(action))
 
-			if not action in range(0,5):
-				req.context['result'] = "Invalid ateration"
-			else:
-				mp3Path = int(request['Mp3'])
-				print("mp3Path es {0}".format(mp3Path))
-				self.actions[action](mp3Path)
+			#if not action in range(0,5):
+			#	req.context['result'] = "Invalid ateration"
+			#else:
+			#	mp3Path = int(request['Mp3'])
+		#		print("mp3Path es {0}".format(mp3Path))
+		#		self.actions[action](mp3Path)
 
 		except Exception as ex:
 			#self.logger.error(ex)
